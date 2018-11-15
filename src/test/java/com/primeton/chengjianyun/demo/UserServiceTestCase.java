@@ -35,7 +35,7 @@ public class UserServiceTestCase {
          * 登录
          */
         UserEntity user1 = new UserEntity();
-        user1.setUserName("user");
+        user1.setUserName("admin");
         user1.setUserPassword("123");
         iUserService.login(user1);
         Assert.assertNotNull("登录失败", iUserService.login(user1));

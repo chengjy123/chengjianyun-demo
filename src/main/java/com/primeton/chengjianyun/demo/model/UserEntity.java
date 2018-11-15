@@ -1,7 +1,5 @@
 package com.primeton.chengjianyun.demo.model;
 
-import com.primeton.chengjianyun.demo.common.PageLimit;
-
 import java.io.Serializable;
 
 public class UserEntity implements Serializable {
