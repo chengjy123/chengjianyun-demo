@@ -16,20 +16,20 @@
 
     <select id="login" parameterType="UserEntity" resultType="UserEntity">
         SELECT <include refid="columns"/>
-        FROM DEMO_USER
+        FROM chengjy_user
         WHERE USER_NAME=#{userName} AND USER_PASSWORD=#{userPassword}
     </select>
 
     <insert id="insert" parameterType="UserEntity" useGeneratedKeys="true" keyProperty="userId">
-        INSERT INTO DEMO_USER(<include refid="columns"/>) VALUES(<include refid="columnsOfEntity"/>)
+        INSERT INTO chengjy_user(<include refid="columns"/>) VALUES(<include refid="columnsOfEntity"/>)
     </insert>
 
     <delete id="delete" parameterType="java.lang.Integer">
-        DELETE FROM DEMO_USER WHERE USER_ID=#{id}
+        DELETE FROM chengjy_user WHERE USER_ID=#{id}
     </delete>
 
     <update id="update" parameterType="UserEntity">
-      UPDATE DEMO_USER
+      UPDATE chengjy_user
       <set>
           <if test="userName!=null and userName!=''">USER_NAME=#{userName},</if>
           <if test="userPassword!=null and userPassword!=''">USER_PASSWORD=#{userPassword},</if>
@@ -40,7 +40,7 @@
 
     <select id="query" resultType="com.primeton.chengjianyun.demo.dto.UserDTO">
         SELECT a.USER_ID,a.ORG_ID,a.USER_NAME,a.USER_PASSWORD,b.ORG_NAME,b.ORG_SHORTNAME
-        FROM DEMO_USER a LEFT JOIN DEMO_ORGANIZATION b
+        FROM chengjy_user a LEFT JOIN chengjy_organization b
         ON a.ORG_ID = b.ORG_ID
         <where>
             <if test="userName!=null and userName!=''">
@@ -55,7 +55,7 @@
 
     <select id="countUser" resultType="java.lang.Integer">
         SELECT COUNT(a.USER_NAME)
-        FROM DEMO_USER a LEFT JOIN DEMO_ORGANIZATION b
+        FROM chengjy_user a LEFT JOIN chengjy_organization b
         ON a.ORG_ID = b.ORG_ID
         <where>
             <if test="userName!=null and userName!=''">
@@ -69,7 +69,7 @@
 
     <select id="getUser" resultType="com.primeton.chengjianyun.demo.dto.UserDTO" parameterType="java.lang.Integer">
         SELECT a.USER_ID,a.ORG_ID,a.USER_NAME,a.USER_PASSWORD,b.ORG_NAME,b.ORG_SHORTNAME
-        FROM DEMO_USER a LEFT JOIN DEMO_ORGANIZATION b
+        FROM chengjy_user a LEFT JOIN chengjy_organization b
         ON a.ORG_ID = b.ORG_ID
         WHERE a.USER_ID = #{id}
     </select>
