@@ -14,7 +14,7 @@ import java.util.Map;
 public interface IUserService {
     /**
      * 登录
-     * @param user
+     * @param user 用户实体
      * @return
      * @throws Exception
      */

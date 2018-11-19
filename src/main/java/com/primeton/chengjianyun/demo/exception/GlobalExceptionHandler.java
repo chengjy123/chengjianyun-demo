@@ -1,6 +1,5 @@
 package com.primeton.chengjianyun.demo.exception;
 
-import com.primeton.chengjianyun.demo.model.ServiceException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

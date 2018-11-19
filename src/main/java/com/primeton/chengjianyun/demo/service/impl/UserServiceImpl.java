@@ -1,7 +1,8 @@
 package com.primeton.chengjianyun.demo.service.impl;
 
 import com.primeton.chengjianyun.demo.dao.UserDao;
-import com.primeton.chengjianyun.demo.model.ServiceException;
+import com.primeton.chengjianyun.demo.enums.ErrorEnum;
+import com.primeton.chengjianyun.demo.exception.ServiceException;
 import com.primeton.chengjianyun.demo.model.UserEntity;
 import com.primeton.chengjianyun.demo.service.IUserService;
 import com.primeton.chengjianyun.demo.dto.UserDTO;
@@ -29,13 +30,13 @@ public class UserServiceImpl implements IUserService {
         Map map = new HashMap();
         if(user!=null){
             if(user.getUserName()==null||user.getUserPassword()==null){
-                throw new ServiceException(101,"用户名或密码不能为空",null);
+                throw new ServiceException(ErrorEnum.nameNotNull);
             }else{
                 if(userDao.login(user)!=null){
                     map.put("msg","登陆成功");
                     map.put("code",1);
                 }else{
-                    throw new ServiceException(102,"用户名或密码错误",null);
+                    throw new ServiceException(ErrorEnum.password_error);
                 }
             }
         }
@@ -47,9 +48,9 @@ public class UserServiceImpl implements IUserService {
         Map map = new HashMap();
         if(user!=null){
             if(user.getUserPassword()==null||user.getUserName()==null){
-                throw new ServiceException(101,"用户名或密码不能为空",null);
+                throw new ServiceException(ErrorEnum.nameNotNull);
             }else if(user.getOrgId()==null){
-                throw new ServiceException(105,"组织ID不能为空",null);
+                throw new ServiceException(ErrorEnum.orgIdNotNull);
             }else{
                 userDao.insert(user);
                 map.put("msg","添加成功");
@@ -64,7 +65,7 @@ public class UserServiceImpl implements IUserService {
     public Map removeUser(Integer userId) throws Exception{
         Map map = new HashMap();
         if(userId==null){
-            throw new ServiceException(103,"id不能为空",null);
+            throw new ServiceException(ErrorEnum.userIdNotNull);
         }else{
             userDao.delete(userId);
             map.put("msg","删除成功");
@@ -78,7 +79,7 @@ public class UserServiceImpl implements IUserService {
         Map map = new HashMap();
         if(user!=null){
             if(user.getUserId()==null){
-                throw new ServiceException(103,"id不能为空",null);
+                throw new ServiceException(ErrorEnum.userIdNotNull);
             }else{
                 userDao.update(user);
                 map.put("msg","修改成功");

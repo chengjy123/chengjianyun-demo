@@ -1,6 +1,6 @@
 package com.primeton.chengjianyun.demo.service.impl;
 
-import com.primeton.chengjianyun.demo.model.ServiceException;
+import com.primeton.chengjianyun.demo.exception.ServiceException;
 import com.primeton.chengjianyun.demo.model.OrgEntity;
 import com.primeton.chengjianyun.demo.service.IOrgService;
 import com.primeton.chengjianyun.demo.dao.OrgDao;

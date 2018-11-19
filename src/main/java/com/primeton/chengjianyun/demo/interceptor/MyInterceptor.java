@@ -1,6 +1,6 @@
 package com.primeton.chengjianyun.demo.interceptor;
 
-import com.primeton.chengjianyun.demo.model.ServiceException;
+import com.primeton.chengjianyun.demo.exception.ServiceException;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 

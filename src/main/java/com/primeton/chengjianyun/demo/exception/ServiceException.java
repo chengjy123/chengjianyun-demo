@@ -1,5 +1,7 @@
-package com.primeton.chengjianyun.demo.model;
+package com.primeton.chengjianyun.demo.exception;
 
+import com.primeton.chengjianyun.demo.enums.ErrorEnum;
+import io.swagger.models.auth.In;
 import org.springframework.http.HttpStatus;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -9,10 +11,6 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
  * @date 2018/10/23 14:52
  */
 public class ServiceException extends Exception{
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = -3876319857610564892L;
 
     private final static String ERROR_CODE = "ErrCode: ";
 
@@ -21,7 +19,7 @@ public class ServiceException extends Exception{
     /**
      * http状态码
      */
-    private HttpStatus httpStatus = INTERNAL_SERVER_ERROR;
+    private HttpStatus httpStatus = HttpStatus.OK;
     /**
      * 异常码
      */
@@ -76,9 +74,14 @@ public class ServiceException extends Exception{
         this.message = message1;
         this.data = data;
     }
-
-    public ServiceException(){
-
+    public ServiceException(ErrorEnum errorEnum){
+        this.code = Integer.valueOf(errorEnum.getCode());
+        this.message = errorEnum.getMsg();
+    }
+    public ServiceException(ErrorEnum errorEnum,HttpStatus httpStatus){
+        this.code = Integer.valueOf(errorEnum.getCode());
+        this.message = errorEnum.getMsg();
+        this.httpStatus = httpStatus;
     }
     public Object getData() {
         return data;
@@ -95,6 +98,7 @@ public class ServiceException extends Exception{
     public void setCode(Integer code) {
         this.code = code;
     }
+
 
     public String getMessage() {
         return message;
