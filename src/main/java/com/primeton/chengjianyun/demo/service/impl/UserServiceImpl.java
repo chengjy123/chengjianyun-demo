@@ -30,13 +30,13 @@ public class UserServiceImpl implements IUserService {
         Map map = new HashMap();
         if(user!=null){
             if(user.getUserName()==null||user.getUserPassword()==null){
-                throw new ServiceException(ErrorEnum.nameNotNull);
+                throw new ServiceException(ErrorEnum.NAME_NOT_NULL);
             }else{
                 if(userDao.login(user)!=null){
                     map.put("msg","登陆成功");
                     map.put("code",1);
                 }else{
-                    throw new ServiceException(ErrorEnum.password_error);
+                    throw new ServiceException(ErrorEnum.PASSWORD_ERROR);
                 }
             }
         }
@@ -48,9 +48,9 @@ public class UserServiceImpl implements IUserService {
         Map map = new HashMap();
         if(user!=null){
             if(user.getUserPassword()==null||user.getUserName()==null){
-                throw new ServiceException(ErrorEnum.nameNotNull);
+                throw new ServiceException(ErrorEnum.NAME_NOT_NULL);
             }else if(user.getOrgId()==null){
-                throw new ServiceException(ErrorEnum.orgIdNotNull);
+                throw new ServiceException(ErrorEnum.ORGID_NOT_NULL);
             }else{
                 userDao.insert(user);
                 map.put("msg","添加成功");
@@ -65,7 +65,7 @@ public class UserServiceImpl implements IUserService {
     public Map removeUser(Integer userId) throws Exception{
         Map map = new HashMap();
         if(userId==null){
-            throw new ServiceException(ErrorEnum.userIdNotNull);
+            throw new ServiceException(ErrorEnum.USERID_NOT_NULL);
         }else{
             userDao.delete(userId);
             map.put("msg","删除成功");
@@ -79,7 +79,7 @@ public class UserServiceImpl implements IUserService {
         Map map = new HashMap();
         if(user!=null){
             if(user.getUserId()==null){
-                throw new ServiceException(ErrorEnum.userIdNotNull);
+                throw new ServiceException(ErrorEnum.USERID_NOT_NULL);
             }else{
                 userDao.update(user);
                 map.put("msg","修改成功");

@@ -1,5 +1,6 @@
 package com.primeton.chengjianyun.demo.exception;
 
+import com.primeton.chengjianyun.demo.model.ResultResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,8 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -24,17 +23,13 @@ public class GlobalExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<Map> exceptionHandler(HttpServletRequest request, Exception e, ServiceException me) throws Exception{
-        Map map = new HashMap();
-        ResponseEntity<Map> re = null;
+    public ResponseEntity<ResultResponse> exceptionHandler(HttpServletRequest request, Exception e, ServiceException me) throws Exception{
+        ResponseEntity<ResultResponse> re = null;
         if(e instanceof ServiceException){
-            re = new ResponseEntity<Map>(map,OK);
-            map.put("code",me.getCode());
-            map.put("msg",me.getMessage());
+            re = new ResponseEntity<ResultResponse>(new ResultResponse(me.getCode().toString(),me.getMessage()),OK);
             logger.error("异常编码:"+me.getCode(),e.getMessage(),e);
         }else{
-            re = new ResponseEntity<Map>(map,me.getHttpStatus());
-            map.put("msg",e.toString());
+            re = new ResponseEntity<ResultResponse>(new ResultResponse(),me.getHttpStatus());
             logger.error("异常信息:",e.getMessage(),e);
         }
         return re;

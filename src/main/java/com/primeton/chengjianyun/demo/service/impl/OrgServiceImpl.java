@@ -1,5 +1,6 @@
 package com.primeton.chengjianyun.demo.service.impl;
 
+import com.primeton.chengjianyun.demo.enums.ErrorEnum;
 import com.primeton.chengjianyun.demo.exception.ServiceException;
 import com.primeton.chengjianyun.demo.model.OrgEntity;
 import com.primeton.chengjianyun.demo.service.IOrgService;
@@ -29,7 +30,7 @@ public class OrgServiceImpl implements IOrgService {
         Map map = new HashMap();
         if(org!=null){
             if(org.getOrgName()==null||org.getOrgShortName()==null){
-                throw new ServiceException(201,"组织名称或简称不能为空",null);
+                throw new ServiceException(ErrorEnum.ORG_NOT_NULL);
             }else if(org.getParentId()==null){
                 org.setParentId(0);
             }else{
@@ -49,11 +50,11 @@ public class OrgServiceImpl implements IOrgService {
         org.setOrgId(orgId);
         List<OrgEntity> list = orgDao.query(org);
         if(orgId==null){
-            throw new ServiceException(203,"id不能为空",null);
+            throw new ServiceException(ErrorEnum.ORGID_NOT_NULL);
         }else if(orgDao.countUser(orgId)>0){
-            throw new ServiceException(204,"此组织下有用户,不允许删除",null);
+            throw new ServiceException(ErrorEnum.EXIST_USER);
         }else if(list.size()>0){
-            throw new ServiceException(205,"此组织下有子组织,不允许删除",null);
+            throw new ServiceException(ErrorEnum.EXIST_ORG);
         }else{
             orgDao.delete(orgId);
             map.put("msg","删除成功");
@@ -67,7 +68,7 @@ public class OrgServiceImpl implements IOrgService {
         Map map = new HashMap();
         if(org!=null){
             if(org.getOrgId()==null){
-                throw new ServiceException(203,"id不能为空",null);
+                throw new ServiceException(ErrorEnum.ORGID_NOT_NULL);
             }else{
                 orgDao.update(org);
                 map.put("msg","修改成功");

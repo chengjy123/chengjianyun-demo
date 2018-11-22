@@ -10,8 +10,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,6 +37,16 @@ public class UserServiceTestCase {
     private UserController userController;
     @Autowired
     private IUserService iUserService;
+    @Autowired
+    private WebApplicationContext wac;
+
+    private MockMvc mvc;
+
+    @Before
+    public void setUp()
+    {
+        mvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
 
     @Test
     public void testUser() throws Exception {
@@ -39,6 +58,18 @@ public class UserServiceTestCase {
         user1.setUserPassword("123");
         iUserService.login(user1);
         Assert.assertNotNull("登录失败", iUserService.login(user1));
+        // 构建请求
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/api/users/actions/login").param("userName", "admin").param(
+                "userPassword", "123");
+
+        // 发送请求，获取请求结果
+        ResultActions perform = mvc.perform(request);
+
+        // 请求结果校验
+        perform.andExpect(MockMvcResultMatchers.status().isOk());
+
+        MvcResult mvcResult = perform.andReturn();
+        MockHttpServletResponse response = mvcResult.getResponse();
         /**
          * 新增
          */
@@ -48,6 +79,7 @@ public class UserServiceTestCase {
         user.setOrgId(1);
         userController.createUser(user);
         Assert.assertNotNull("新增用户失败", userController.createUser(user));
+        Assert.assertEquals("新增异常",user);
 
         /**
          * 修改
@@ -57,6 +89,7 @@ public class UserServiceTestCase {
         user.setOrgId(1);
         userController.modifyUser(user);
         Assert.assertNotNull("修改用户失败",  userController.modifyUser(user));
+        Assert.assertEquals("修改异常",user.getUserId());
         /**
          * 查询
          */
@@ -66,5 +99,6 @@ public class UserServiceTestCase {
          */
         userController.removeUser(user.getUserId());
         Assert.assertNotNull("删除用户失败", userController.removeUser(user.getUserId()));
+        Assert.assertEquals("删除异常",user.getUserId());
     }
 }

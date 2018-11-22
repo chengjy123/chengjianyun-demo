@@ -37,7 +37,7 @@ public class UserController {
     @RequestMapping(value = "/actions/login",method = RequestMethod.DELETE)
     @ApiOperation(value = "用户登出")
     public void logout(HttpSession session){
-        session.removeAttribute("name");
+        session.invalidate();
     }
 
     @ResponseBody
